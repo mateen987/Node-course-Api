@@ -52,7 +52,7 @@ app.get('/todo/:id',(req,res)=>{
 
 
 app.listen(PORT,()=>{
-console.log(`starting on port ${port}`);
+console.log(`starting on port ${PORT}`);
 });
 
 module.exports={app};
