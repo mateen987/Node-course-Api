@@ -10,9 +10,9 @@ var {Todo}= require('./Model/todo');
 var app=express();
 const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
-app.post('/todo',(req,res)=>{
+app.post('/todo',(req, res)=>{
 
-    var todo=new Todo({
+    var todo = new Todo({
         text:req.body.text
     });
     
