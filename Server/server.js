@@ -5,7 +5,7 @@ var express=require('express');
 const bodyParser=require('body-parser');
 const {ObjectID}= require('mongodb');
 var {mongoose} =require('./db/mongoose');
-var {user}=require('./Model/user');
+var {User}=require('./Model/user');
 var {Todo}= require('./Model/todo');
 
 var app=express();
@@ -93,8 +93,14 @@ app.patch('/todo/:id',(req,res)=>{
 app.post('/users', (req , res) =>{
 var body=_.pick(req.body, ['email','password']);
 var user =new User(body);
-user.save().then((user)=>{
-res.send(user);
+
+user.generateAuthToken
+user.save().then(()=>{
+user.generateAuthToken();
+
+    // res.send(user);
+}).then((token)=>{
+ res.header('X-auth',token).send(user);
 }).catch((e)=>{
     return res.status(400).send(e);
 })
