@@ -7,7 +7,7 @@ const {ObjectID}= require('mongodb');
 var {mongoose} =require('./db/mongoose');
 var {User}=require('./Model/user');
 var {Todo}= require('./Model/todo');
-
+var {authenticate} = require('./middleware/authenticate');
 var app=express();
 const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
@@ -93,18 +93,22 @@ app.patch('/todo/:id',(req,res)=>{
 app.post('/users', (req , res) =>{
 var body=_.pick(req.body, ['email','password']);
 var user =new User(body);
-
-user.generateAuthToken
+// user.generateAuthToken; 
 user.save().then(()=>{
-user.generateAuthToken();
+return user.generateAuthToken();
 
     // res.send(user);
 }).then((token)=>{
- res.header('X-auth',token).send(user);
+ res.header('x-auth',token).send(user);
 }).catch((e)=>{
     return res.status(400).send(e);
 })
 
+})
+
+
+app.get('/user/me',authenticate,(req,res)=>{
+    res.send(req.user);
 })
 
 app.listen(port, ()=>{
