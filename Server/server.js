@@ -105,7 +105,15 @@ return user.generateAuthToken();
 })
 
 })
-
+app.get('/getusers',(req,res)=>{
+     User.find().then((user)=>{
+        res.send({user});
+    
+        },(e)=>{
+          res.status(400).send(e);
+        })
+    
+})
 
 app.get('/user/me',authenticate,(req,res)=>{
     res.send(req.user);
